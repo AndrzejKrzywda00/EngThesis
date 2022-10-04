@@ -67,6 +67,11 @@ namespace ns3 {
          * @return double length value
          */
         double GetLengthOfVessel (int vesselId);
+
+        /***
+         * Saving data to csv in special format
+         */
+        void SaveToCsv();
     };
 }
 

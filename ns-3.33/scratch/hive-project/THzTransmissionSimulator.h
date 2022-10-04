@@ -36,6 +36,8 @@ namespace ns3 {
         Ipv4InterfaceContainer interfaces;
         uint8_t packetLength;
         uint8_t frameLength;
+        int timeInMilliseconds;
+        bool success = false;
 
         /***
          * Create node container for all nodes
@@ -65,7 +67,7 @@ namespace ns3 {
         /***
          * Setup traffic parameters
          */
-        void SetupTraffic (int timeInMilliseconds);
+        void SetupTraffic ();
 
     public:
 

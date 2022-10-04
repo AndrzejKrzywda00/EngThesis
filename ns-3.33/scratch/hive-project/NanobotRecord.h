@@ -18,6 +18,7 @@ namespace ns3 {
         int bloodVesselId;
         int streamId;
         Time timestamp;
+        int direction;          // 1 from data source to nanobot, -1 otherwise
 
     public:
 
@@ -43,6 +44,16 @@ namespace ns3 {
          int GetBloodVesselId ();
 
          /***
+          * Get stream ID
+          */
+         int GetStreamId ();
+
+         /***
+          * return direction of transmission
+          */
+         int GetDirection ();
+
+         /***
           * Get timestamp
           */
          Time GetTimestamp ();
@@ -60,7 +71,12 @@ namespace ns3 {
          /***
           * Get X position of nanobot
           */
-          double GetZ ();
+         double GetZ ();
+
+         /***
+          * Setting direction of transmission
+          */
+         void SetDirection(int direction);
     };
 
 }

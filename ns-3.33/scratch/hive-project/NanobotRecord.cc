@@ -31,6 +31,25 @@ namespace ns3 {
         bloodVesselId = std::stoi (segment.at (4));
         streamId = std::stoi (segment.at (5));
         timestamp = Time (segment.at (6));
+        direction = 0;
+    }
+
+    void
+    NanobotRecord::SetDirection (int direction)
+    {
+        this->direction = direction;
+    }
+
+    int
+    NanobotRecord::GetDirection ()
+    {
+        return direction;
+    }
+
+    int
+    NanobotRecord::GetStreamId ()
+    {
+        return streamId;
     }
 
     NanobotRecord::~NanobotRecord () {}

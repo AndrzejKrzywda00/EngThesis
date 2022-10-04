@@ -17,6 +17,25 @@ namespace ns3 {
         return data.at (vesselId).at (1);
     }
 
+    void
+    BloodVesselData::SaveToCsv ()
+    {
+        std::ofstream bvFile;
+        bvFile.open ("vasculature-data.csv", std::ofstream::out | std::ios::app);
+        for (unsigned long int i=1; i<=94; i++)
+        {
+            double radius = 0.0025;
+            std::vector<double> dataVector = data.at (i);
+            bvFile <<
+            i << "," <<
+            dataVector.at (0) << "," <<
+            dataVector.at (1) << "," <<
+            radius << "," <<
+            std::endl;
+        }
+        bvFile.close();
+    }
+
     double
     BloodVesselData::GetSpeedOfBloodInVessel (int vesselId)
     {

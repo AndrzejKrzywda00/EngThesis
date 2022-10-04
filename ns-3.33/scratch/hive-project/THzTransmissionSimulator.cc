@@ -24,9 +24,10 @@ namespace ns3 {
         frameLength = packetLength + 52;
 
         const double diameter = 0.25 / 100;
-        int timeInMilliseconds = (int) round(vesselLength / vesselBloodSpeed * 1000);
+        timeInMilliseconds = (int) round(vesselLength / vesselBloodSpeed * 1000);
 
         //LogComponentEnable("THzUdpClient", LOG_LEVEL_ALL);
+        //LogComponentEnable("THzUdpServer", LOG_LEVEL_ALL);
         //LogComponentEnable("THzMacNano", LOG_LEVEL_ALL);
         //LogComponentEnable("THzNetDevice", LOG_LEVEL_ALL);
         //LogComponentEnable("THzPhyNano", LOG_LEVEL_ALL);
@@ -41,26 +42,26 @@ namespace ns3 {
         this->SetupChannel ();
         this->SetupMobility (vesselBloodSpeed, diameter, vesselLength);
         this->SetupIPLayer ();
-        this->SetupTraffic (timeInMilliseconds);
+        this->SetupTraffic ();
     }
 
     bool
     THzTransmissionSimulator::Success ()
     {
-        std::fstream in;
-        in.open ("nano_2way_sucessful.txt");
-        bool success = in.good();
-        std::remove ("nano_2way_sucessful.txt");
-        std::remove ("nano_2way_discarded.txt");
         return success;
     }
 
     void
     THzTransmissionSimulator::SimulateTransmission ()
     {
-        Simulator::Stop (MilliSeconds (10));
+        Simulator::Stop (MilliSeconds (timeInMilliseconds));
         Simulator::Run ();
         Simulator::Destroy ();
+
+        std::fstream in;
+        in.open ("nano_2way_sucessful.txt");
+        success = in.good();
+        std::remove ("nano_2way_sucessful.txt");
     }
 
     void
@@ -137,13 +138,13 @@ namespace ns3 {
     }
 
     void
-    THzTransmissionSimulator::SetupTraffic (int timeInMilliseconds)
+    THzTransmissionSimulator::SetupTraffic ()
     {
         int port = 8050;
         THzUdpServerHelper serverHelper (port);
         ApplicationContainer apps = serverHelper.Install (serverNodes);
         apps.Start (MicroSeconds (10));
-        apps.Stop (MilliSeconds (timeInMilliseconds + 10));
+        apps.Stop (MilliSeconds (timeInMilliseconds));
         std::cout << "Setting up simulation time for " << timeInMilliseconds << " ms" << std::endl;
 
         THzUdpClientHelper clientHelper (interfaces.GetAddress (0), port);
@@ -151,6 +152,6 @@ namespace ns3 {
         apps = clientHelper.Install (clientNodes);
 
         apps.Start (MicroSeconds (10));
-        apps.Stop (MilliSeconds (timeInMilliseconds + 10));
+        apps.Stop (MilliSeconds (timeInMilliseconds));
     }
 }

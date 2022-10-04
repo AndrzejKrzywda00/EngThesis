@@ -39,12 +39,14 @@ main ()
     dataSources.push_back (5);
     dataSources.push_back (20);
 
+    // preparing data of blood vessels
     ns3::BloodVesselData bvData;
     bvData.AddAll ("/home/andrzej/ns-allinone-3.33/ns-3.33/vasculature.csv");
+    bvData.SaveToCsv();
 
+    // preparing data of nanobots flow
     flow.SetDataSourceVessels (dataSources);
     flow.SetNumberOfNanobots (numberOfNanobots);
-    flow.SetBloodVesselData (bvData);
     flow.Simulate();
 
     vector<ns3::DataPackage> packages = flow.GetDataPackages();

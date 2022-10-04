@@ -39,12 +39,6 @@ namespace std {
     }
 
     void
-    DataFlowAnalyzer::SetBloodVesselData (ns3::BloodVesselData data)
-    {
-        this->bloodVesselData = data;
-    }
-
-    void
     DataFlowAnalyzer::SetAccessPointVessel (int vesselId)
     {
         accessPointVesselId = vesselId;
@@ -135,52 +129,45 @@ namespace std {
     void
     DataFlowAnalyzer::SimulateForNanobot (vector<ns3::NanobotRecord> records)
     {
-        ns3::DataPackage lastPackage;
+        vector<ns3::NanobotRecord> fullRecords;
         for (unsigned long int i=0; i<records.size(); i++)
         {
             ns3::NanobotRecord record = records.at (i);
-            ns3::THzTransmissionSimulator simulator;
             if (find (dataSourceVesselIds.begin(), dataSourceVesselIds.end(), record.GetBloodVesselId()) != dataSourceVesselIds.end())
             {
-                ns3::DataPackage package (record.GetTimestamp(), record.GetNanobotId(), "");
-
-                simulator.SetTransmissionParameters (
-                        bloodVesselData.GetSpeedOfBloodInVessel (record.GetBloodVesselId()),
-                        bloodVesselData.GetLengthOfVessel (record.GetBloodVesselId())
-                        );
-                simulator.SimulateTransmission ();
-
-                if (simulator.Success())
-                {
-                    cout << "Success" << endl;
-                    lastPackage = package;
-                }
-                else
-                {
-                    cout << "Failed transmission" << endl;
-                }
-                cout << "Transmitting from data source to nanobot " << record.GetNanobotId() << " in vessel " << record.GetBloodVesselId() << " at time " << record.GetTimestamp().GetSeconds() << endl;
+                // reception of data
+                record.SetDirection (-1);
             }
             else
             {
-                simulator.SetTransmissionParameters (
-                        bloodVesselData.GetSpeedOfBloodInVessel (record.GetBloodVesselId()),
-                        bloodVesselData.GetLengthOfVessel (record.GetBloodVesselId())
-                        );
-                simulator.SimulateTransmission ();
-                if (simulator.Success() && lastPackage.GetStatus() != ns3::EMPTY)
-                {
-                    cout << "Success" << endl;
-                    lastPackage.ReceiveData (record.GetTimestamp());
-                    packages.push_back (lastPackage);
-                }
-                else
-                {
-                    cout << "Failed transmission" << endl;
-                }
-                cout << "Transmitting to access point from nanobot " << record.GetNanobotId() << " in vessel " << record.GetBloodVesselId() << " at time " << record.GetTimestamp().GetSeconds() << endl;
+                // creation of data
+                record.SetDirection (1);
             }
+            fullRecords.push_back (record);
         }
+        this->SaveDataToCsv (fullRecords);
+    }
+
+    void
+    DataFlowAnalyzer::SaveDataToCsv (vector <ns3::NanobotRecord> fullRecords)
+    {
+        ofstream file;
+        file.open ("{insert-params}_result.csv", ofstream::out | ios::app);
+        for (unsigned long int i=0; i<fullRecords.size(); i++)
+        {
+            ns3::NanobotRecord record = fullRecords.at (i);
+            file <<
+            record.GetNanobotId() << "," <<
+            record.GetX() << "," <<
+            record.GetY() << "," <<
+            record.GetZ() << "," <<
+            record.GetBloodVesselId() << "," <<
+            record.GetStreamId() << "," <<
+            record.GetTimestamp() << "," <<
+            record.GetDirection() << endl;
+        }
+        file.close();
+        cout << "data saved" << endl;
     }
 
     map<int, vector<ns3::NanobotRecord>>

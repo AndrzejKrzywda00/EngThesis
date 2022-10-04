@@ -58,6 +58,11 @@ namespace std {
          */
         vector<ns3::NanobotRecord> FilterRepeatingRecordsInSingleVesselForNanobot (vector<ns3::NanobotRecord> records);
 
+        /***
+         * Save full list to csv file
+         */
+        void SaveDataToCsv(vector<ns3::NanobotRecord> fullRecords);
+
     public:
 
         /***
@@ -96,11 +101,6 @@ namespace std {
          * @return vector of ns3::DataPackage
          */
         vector<ns3::DataPackage> GetDataPackages ();
-
-        /***
-         * Setter for blood vessel data util class
-         */
-        void SetBloodVesselData(ns3::BloodVesselData data);
     };
 }
 #endif
