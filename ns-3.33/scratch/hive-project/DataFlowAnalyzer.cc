@@ -1,7 +1,5 @@
 /*
  * Data Flow Analyzer class implementation
- * The class takes in csv file in format described as:
- * id, x, y, z,
  */
 
 #include <vector>
