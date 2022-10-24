@@ -72,15 +72,12 @@ if __name__ == '__main__':
     figure, axis = plt.subplots()
     values = [int(histogram[key]) for key in histogram.keys()]
     x = [key / 3600 for key in list(histogram.keys())]
-    axis.bar(x, values, linewidth=1.0, edgecolor='black')
+    axis.bar(x, values, linewidth=1.0, edgecolor='black', width=0.5)
     axis.set_ylabel("Number of packets delivered")
     axis.set_xlabel("Delivery time [h]")
     axis.set_title("Delivery time of packets histogram")
     plt.show()
 
-    successful_transmissions = successful_transmissions_nb_ap + successful_transmissions_nb_ap
-    # print("chance of successful transmission from nanobot to access point: ", successful_transmissions_nb_ap / transmissions_nb_ap)
-    # print("change of successful transmission from data source to nanobot: ", successful_transmissions_ds_nb / transmissions_ds_nb)
     print("mean delay [h]: ", np.mean(delivery_times) / 3600)
     print("standard deviation [h]: ", np.std(delivery_times) / 3600)
     print("Delivery percentage: ", len(data_sent) / test_size)
