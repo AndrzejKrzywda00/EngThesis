@@ -17,7 +17,7 @@ if __name__ == '__main__':
     successful_transmissions = 0
 
     # reading data of nanobots moving through vessels
-    with open('data/results-2.csv', 'r') as file:
+    with open('data/simulation_time/results-2.csv', 'r') as file:
         csv_reader = csv.reader(file)
         for row in csv_reader:
             record = NanobotRecord(row)

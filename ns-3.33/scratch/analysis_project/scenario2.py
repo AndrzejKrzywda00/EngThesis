@@ -14,10 +14,10 @@ if __name__ == '__main__':
 
     # variables to calculate metrics
     test_size = 1000
-    distribution_threshold = 10 * 60
+    wait_time = 10 * 60
     simulation_time_in_hours = 30
 
-    provider = DataProvider(distribution_threshold, 'data/results-30.csv')
+    provider = DataProvider(wait_time, 'data/simulation_time/results-{}.csv'.format(simulation_time_in_hours))
     nanobot_map = provider.get_nanobots_map()
     blood_vessels_map = provider.get_blood_vessels_map()
 
@@ -47,8 +47,8 @@ if __name__ == '__main__':
         min_time = simulation_time_in_hours * 60 * 60
         min_packet = None
         for packet in packets:
-            if packet.delivery_time(distribution_threshold) <= min_time:
-                min_time = packet.delivery_time(distribution_threshold)
+            if packet.delivery_time(wait_time) <= min_time:
+                min_time = packet.delivery_time(wait_time)
                 min_packet = packet
         if min_packet is not None:
             data_sent.append(min_packet)
@@ -57,7 +57,7 @@ if __name__ == '__main__':
     sampling_depth = 2
     histogram_width = 60 * 60 / sampling_depth
     widths = [[i * histogram_width, (i+1) * histogram_width] for i in range(simulation_time_in_hours * sampling_depth)]
-    delivery_times = [data.delivery_time(distribution_threshold) for data in data_sent]
+    delivery_times = [data.delivery_time(wait_time) for data in data_sent]
     histogram = dict()
 
     for time in delivery_times:
