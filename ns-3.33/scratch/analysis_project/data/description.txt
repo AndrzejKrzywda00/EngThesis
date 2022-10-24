@@ -1,0 +1,14 @@
+Description of scenarios parameters to exact results:
+1. "results-n.csv" - injection vessel = 69, time = n * h, nanobots = 100, reception vessel id = 64
+
+    Data for n = 6
+    ------------------
+    1.1 Mean time to receive packet - 1,85 h with standard deviation 1,33 h
+    1.2 Correct transmission probability: in nb -> ap: 0,55%
+    1.3 Correct transmission probability in ds -> nb: 0,69%
+    1.4 Expected number of packets per hour: 0,3
+    ------------------
+
+    With longer scenarios, m parameter grows
+
+2. "nanobots_number/results-n.csv" - same, scaling number of nanobots, starting from 100
