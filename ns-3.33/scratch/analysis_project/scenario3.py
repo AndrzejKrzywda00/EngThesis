@@ -5,6 +5,9 @@ from DataProvider import DataProvider
 from Status import Status
 from TransmissionSimulator import TransmissionSimulator
 
+# Scenario .3
+# Analysing chances of data delivery
+# Depending on how long the system operates
 if __name__ == '__main__':
 
     # variables to define scenario
@@ -46,6 +49,7 @@ if __name__ == '__main__':
     figure, axis = plt.subplots()
     ys = [results[hour]*100 for hour in simulation_hours]
     axis.stem(simulation_hours, ys, linefmt='b:', use_line_collection=True)
+    axis.set_title('Success rate of system depending on time of operating')
     axis.set_ylabel('Chances of packet delivery [%]')
     axis.set_xlabel('Time of system operating in human body [h]')
     plt.show()
