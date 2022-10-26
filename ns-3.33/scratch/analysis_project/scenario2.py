@@ -69,15 +69,33 @@ if __name__ == '__main__':
             if width[0] < time <= width[1]:
                 histogram[np.mean(width)] += 1
 
+    # Probability density
     figure, axis = plt.subplots()
     values = [int(histogram[key]) for key in histogram.keys()]
     x = [key / 3600 for key in list(histogram.keys())]
     axis.bar(x, values, linewidth=1.0, edgecolor='black', width=0.5)
     axis.set_ylabel("Number of packets delivered")
     axis.set_xlabel("Delivery time [h]")
-    axis.set_title("Delivery time of packets histogram")
+    axis.set_title("Delivery time of packets histogram, N = 100 nanobots")
     plt.show()
 
     print("mean delay [h]: ", np.mean(delivery_times) / 3600)
     print("standard deviation [h]: ", np.std(delivery_times) / 3600)
     print("Delivery percentage: ", len(data_sent) / test_size)
+
+    # Distribution function
+    distribution = []
+    for width in widths:
+        receptions = 0
+        for data in data_sent:
+            if data.received_time <= width[1]:
+                receptions += 1
+        distribution.append(receptions / test_size)
+
+    dist_figure, dist_axis = plt.subplots()
+    y_dist = [100 * probability for probability in distribution]
+    dist_axis.stem(x, y_dist, use_line_collection=True, linefmt=':')
+    dist_axis.set_title('Chances of packet delivery depending on operating time \n of N = 100 nanobots in human bloodstream')
+    dist_axis.set_ylabel('Chances of packet delivery [%]')
+    dist_axis.set_xlabel('Time of operating in human body [h]')
+    plt.show()

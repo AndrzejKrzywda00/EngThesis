@@ -1,11 +1,11 @@
-# Scenario .1
-# Analysing how soon will data be delivered
-# Depending on number of nanobots in the system
 from DataPacket import DataPacket
 from DataProvider import DataProvider
 from Status import Status
 from TransmissionSimulator import TransmissionSimulator
 
+# Scenario .1
+# Analysing how soon will data be delivered
+# Depending on number of nanobots in the system
 if __name__ == '__main__':
 
     # variables to calculate metrics:
