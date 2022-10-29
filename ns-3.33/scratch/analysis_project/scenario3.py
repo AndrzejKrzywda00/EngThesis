@@ -5,13 +5,12 @@ from DataProvider import DataProvider
 # per time unit in two scenarios
 # DS -> NB
 # NB -> AP
-from Status import Status
 from TransmissionSimulator import TransmissionSimulator
 
 if __name__ == '__main__':
 
     # variables to calculate metrics
-    test_size = 1000
+    test_size = 1
     wait_time = 10 * 60
     simulation_time_in_hours = 30
 
@@ -23,6 +22,7 @@ if __name__ == '__main__':
     transmissions_nb_ap = 0
     successful_transmissions_ds_nb = 0
     successful_transmissions_nb_ap = 0
+    num_of_nanobots = len(nanobot_map)
 
     for i in range(test_size):
         for nanobot_id in nanobot_map:
@@ -39,7 +39,9 @@ if __name__ == '__main__':
                     if simulator.will_transmit_from_nanobot_to_access_point():
                         successful_transmissions_nb_ap += 1
 
-    print(successful_transmissions_ds_nb / transmissions_ds_nb)
-    print(successful_transmissions_nb_ap / transmissions_nb_ap)
-    print(transmissions_ds_nb / (simulation_time_in_hours * test_size))
-    print(transmissions_nb_ap / (simulation_time_in_hours * test_size))
+    print('Transmission chance in DS -> NB case: [%] ', 100 * successful_transmissions_ds_nb / transmissions_ds_nb)
+    print('Transmission chance in NB -> AP case: [%] ', 100 * successful_transmissions_nb_ap / transmissions_nb_ap)
+    print('Frequency of nanobot flow through reception vein / hour: ',
+          transmissions_ds_nb / (simulation_time_in_hours * test_size * num_of_nanobots))
+    print('Frequency of nanobot flow through transmission vein / hour: ',
+          transmissions_nb_ap / (simulation_time_in_hours * test_size * num_of_nanobots))
