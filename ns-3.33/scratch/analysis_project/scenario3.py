@@ -1,18 +1,17 @@
 from DataPacket import DataPacket
 from DataProvider import DataProvider
 
-# Simulating to check how often do transmissions occur
-# per time unit in two scenarios
-# DS -> NB
-# NB -> AP
+# Simulation to check how many packets per unit of time
+# will be delivered by the system
+# 100 nanobots | 30 h
 from TransmissionSimulator import TransmissionSimulator
 
 if __name__ == '__main__':
 
     # variables to calculate metrics
-    test_size = 1
     wait_time = 10 * 60
     simulation_time_in_hours = 30
+    test_size = 100
 
     provider = DataProvider(wait_time, 'data/simulation_time/results-{}.csv'.format(simulation_time_in_hours))
     nanobot_map = provider.get_nanobots_map()
@@ -23,6 +22,7 @@ if __name__ == '__main__':
     successful_transmissions_ds_nb = 0
     successful_transmissions_nb_ap = 0
     num_of_nanobots = len(nanobot_map)
+    data_sent = []
 
     for i in range(test_size):
         for nanobot_id in nanobot_map:
@@ -31,17 +31,12 @@ if __name__ == '__main__':
             for record in records:
                 simulator = TransmissionSimulator(record, blood_vessels_map[record.blood_vessel_id])
                 if record.is_from_datasource_to_nanobot():
-                    transmissions_ds_nb += 1
                     if simulator.will_transmit_from_data_source_to_nanobot():
-                        successful_transmissions_ds_nb += 1
+                        last_packet = DataPacket()
+                        last_packet.set(record)
                 if record.is_from_nanobot_to_access_point():
-                    transmissions_nb_ap += 1
                     if simulator.will_transmit_from_nanobot_to_access_point():
-                        successful_transmissions_nb_ap += 1
+                        last_packet.complete(record)
+                        data_sent.append(last_packet)
 
-    print('Transmission chance in DS -> NB case: [%] ', 100 * successful_transmissions_ds_nb / transmissions_ds_nb)
-    print('Transmission chance in NB -> AP case: [%] ', 100 * successful_transmissions_nb_ap / transmissions_nb_ap)
-    print('Frequency of nanobot flow through reception vein / hour: ',
-          transmissions_ds_nb / (simulation_time_in_hours * test_size * num_of_nanobots))
-    print('Frequency of nanobot flow through transmission vein / hour: ',
-          transmissions_nb_ap / (simulation_time_in_hours * test_size * num_of_nanobots))
+    print('Packets per hour:', len(data_sent) / (simulation_time_in_hours * test_size))

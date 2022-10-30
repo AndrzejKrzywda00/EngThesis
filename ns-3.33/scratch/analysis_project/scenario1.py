@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 from DataPacket import DataPacket
 from DataProvider import DataProvider
 from Status import Status
@@ -14,9 +16,10 @@ if __name__ == '__main__':
     simulation_time_in_hours = 12
     results = []
 
-    for i in range(100):
-        n = 1000 * i
-        provider = DataProvider(wait_time, 'data/number_of_nanobots/results-{}'.format(n))
+    for i in range(10):
+        n = 100 * (i + 1)
+        print('results-{}'.format(n), ' is done')
+        provider = DataProvider(wait_time, 'data/number_of_nanobots/results-{}.csv'.format(n))
         nanobot_map = provider.get_nanobots_map()
         blood_vessels_map = provider.get_blood_vessels_map()
 
@@ -45,3 +48,8 @@ if __name__ == '__main__':
                     min_time = data.delivery_time(wait_time)
                     min_packet = data
             results.append(min_packet.delivery_time(wait_time))
+
+    figure, axis = plt.subplots()
+    nanobots = [(i + 1) * 100 for i in range(10)]
+    axis.scatter(nanobots, results)
+    plt.show()

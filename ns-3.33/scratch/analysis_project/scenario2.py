@@ -15,7 +15,7 @@ if __name__ == '__main__':
     # variables to calculate metrics
     test_size = 1000
     wait_time = 10 * 60
-    simulation_time_in_hours = 30
+    simulation_time_in_hours = 24
 
     provider = DataProvider(wait_time, 'data/simulation_time/results-{}.csv'.format(simulation_time_in_hours))
     nanobot_map = provider.get_nanobots_map()
