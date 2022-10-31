@@ -1,4 +1,4 @@
-import matplotlib.pyplot as plt
+import numpy as np
 
 from DataPacket import DataPacket
 from DataProvider import DataProvider
@@ -11,45 +11,44 @@ from TransmissionSimulator import TransmissionSimulator
 if __name__ == '__main__':
 
     # variables to calculate metrics:
-    test_size = 1
+    test_size = 500
     wait_time = 60 * 10
     simulation_time_in_hours = 12
-    results = []
+    results = dict()
+    times = [800, 900, 1000]
+    data_sent_for_test = dict()
 
-    for i in range(10):
-        n = 100 * (i + 1)
-        print('results-{}'.format(n), ' is done')
-        provider = DataProvider(wait_time, 'data/number_of_nanobots/results-{}.csv'.format(n))
+    for time in times:
+        results[time] = []
+        provider = DataProvider(wait_time, 'data/number_of_nanobots/results-{}.csv'.format(time))
         nanobot_map = provider.get_nanobots_map()
         blood_vessels_map = provider.get_blood_vessels_map()
+        data_sent_for_test[time] = []
 
-        data_sent = []
+        for i in range(test_size):
+            data_sent = []
+            for nanobot_id in nanobot_map:
+                records = nanobot_map[nanobot_id]
+                last_packet = DataPacket()
+                for record in records:
+                    simulator = TransmissionSimulator(record, blood_vessels_map[record.blood_vessel_id])
+                    if record.is_from_datasource_to_nanobot():
+                        if simulator.will_transmit_from_data_source_to_nanobot():
+                            last_packet = DataPacket()
+                            last_packet.set(record)
+                    if record.is_from_nanobot_to_access_point():
+                        if simulator.will_transmit_from_nanobot_to_access_point():
+                            if last_packet.status == Status.SENT:
+                                last_packet.complete(record)
+                                data_sent.append(last_packet)
 
-        for nanobot_id in nanobot_map:
-            records = nanobot_map[nanobot_id]
-            last_packet = DataPacket()
-            for record in records:
-                simulator = TransmissionSimulator(record, blood_vessels_map[record.blood_vessel_id])
-                if record.is_from_datasource_to_nanobot():
-                    if simulator.will_transmit_from_data_source_to_nanobot():
-                        last_packet = DataPacket()
-                        last_packet.set(record)
-                if record.is_from_nanobot_to_access_point():
-                    if simulator.will_transmit_from_nanobot_to_access_point():
-                        if last_packet.status == Status.SENT:
-                            last_packet.complete(record)
-                            data_sent.append(last_packet)
+            min_time = 4 * 60 * 60
+            if len(data_sent) > 0:
+                for data in data_sent:
+                    if data.delivery_time(wait_time) <= min_time:
+                        min_time = data.delivery_time(wait_time)
+            data_sent_for_test[time].append(min_time)
 
-        min_time = simulation_time_in_hours * 60 * 60
-        if len(data_sent) > 0:
-            min_packet = data_sent[0]
-            for data in data_sent:
-                if data.delivery_time(wait_time) <= min_time:
-                    min_time = data.delivery_time(wait_time)
-                    min_packet = data
-            results.append(min_packet.delivery_time(wait_time))
+        results[time].append(np.mean(data_sent_for_test[time]))
 
-    figure, axis = plt.subplots()
-    nanobots = [(i + 1) * 100 for i in range(10)]
-    axis.scatter(nanobots, results)
-    plt.show()
+    print([result[0] / 3600 for result in results.values()])
