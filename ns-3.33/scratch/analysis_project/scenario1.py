@@ -15,15 +15,15 @@ if __name__ == '__main__':
     wait_time = 60 * 10
     simulation_time_in_hours = 12
     results = dict()
-    times = [800, 900, 1000]
-    data_sent_for_test = dict()
+    times = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+    data_sent_for_time = dict()
 
     for time in times:
         results[time] = []
         provider = DataProvider(wait_time, 'data/number_of_nanobots/results-{}.csv'.format(time))
         nanobot_map = provider.get_nanobots_map()
         blood_vessels_map = provider.get_blood_vessels_map()
-        data_sent_for_test[time] = []
+        data_sent_for_time[time] = []
 
         for i in range(test_size):
             data_sent = []
@@ -47,8 +47,12 @@ if __name__ == '__main__':
                 for data in data_sent:
                     if data.delivery_time(wait_time) <= min_time:
                         min_time = data.delivery_time(wait_time)
-            data_sent_for_test[time].append(min_time)
+                data_sent_for_time[time].append(min_time)
 
-        results[time].append(np.mean(data_sent_for_test[time]))
+        for key in data_sent_for_time.keys():
+            data = data_sent_for_time[key]
+            print(len(data) / test_size)
+
+        results[time].append(np.mean(data_sent_for_time[time]))
 
     print([result[0] / 3600 for result in results.values()])

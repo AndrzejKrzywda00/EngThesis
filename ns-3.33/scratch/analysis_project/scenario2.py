@@ -15,9 +15,10 @@ if __name__ == '__main__':
     # variables to calculate metrics
     test_size = 1000
     wait_time = 10 * 60
-    simulation_time_in_hours = 24
+    simulation_time_in_hours = 8
+    nanobot_number = 800
 
-    provider = DataProvider(wait_time, 'data/simulation_time/results-{}.csv'.format(simulation_time_in_hours))
+    provider = DataProvider(wait_time, 'data/number_of_nanobots/results-{}.csv'.format(nanobot_number))
     nanobot_map = provider.get_nanobots_map()
     blood_vessels_map = provider.get_blood_vessels_map()
 
@@ -76,11 +77,11 @@ if __name__ == '__main__':
     axis.bar(x, values, linewidth=1.0, edgecolor='black', width=0.5)
     axis.set_ylabel("Number of packets delivered")
     axis.set_xlabel("Delivery time [h]")
-    axis.set_title("Delivery time of packets histogram, N = 100 nanobots")
+    axis.set_title("Delivery time of packets histogram, N = {} nanobots".format(nanobot_number))
     plt.show()
 
-    print("mean delay [h]: ", np.mean(delivery_times) / 3600)
-    print("standard deviation [h]: ", np.std(delivery_times) / 3600)
+    print("Mean delay [h]: ", np.mean(delivery_times) / 3600)
+    print("Standard deviation [h]: ", np.std(delivery_times) / 3600)
     print("Delivery percentage: ", len(data_sent) / test_size)
 
     # Distribution function
@@ -95,7 +96,7 @@ if __name__ == '__main__':
     dist_figure, dist_axis = plt.subplots()
     y_dist = [100 * probability for probability in distribution]
     dist_axis.stem(x, y_dist, use_line_collection=True, linefmt=':')
-    dist_axis.set_title('Chances of packet delivery depending on operating time \n of N = 100 nanobots in human bloodstream')
+    dist_axis.set_title('Chances of packet delivery depending on operating time \n of N = {} nanobots in human bloodstream'.format(nanobot_number))
     dist_axis.set_ylabel('Chances of packet delivery [%]')
     dist_axis.set_xlabel('Time of operating in human body [h]')
     plt.show()
