@@ -2,7 +2,8 @@ import math
 
 
 class NanobotRecord:
-    def __init__(self, row):
+    def __init__(self, row, id):
+        self.id = id
         self.nanobot_id = int(row[0])
         self.x = float(row[1])
         self.y = float(row[2])

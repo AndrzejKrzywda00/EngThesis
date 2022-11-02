@@ -17,8 +17,10 @@ class DataProvider:
     def read_data(self):
         with open(self.path, 'r') as file:
             csv_reader = csv.reader(file)
+            record_id = 0
             for row in csv_reader:
-                record = NanobotRecord(row)
+                record = NanobotRecord(row, record_id)
+                record_id += 1
                 if record.timestamp >= self.delay:
                     self.nanobot_records.append(record)
 
