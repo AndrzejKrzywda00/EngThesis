@@ -16,6 +16,7 @@ class CollisionDetector:
                 self.data.append(record)
 
         for i in range(len(self.data)):
+            print(i)
             record = self.data[i]
             vessel = self.vessels[record.blood_vessel_id]
             j = i
@@ -30,10 +31,12 @@ class CollisionDetector:
                     time_difference_distance = vessel.blood_velocity * time_difference
                     if np.absolute(absolute_distance - time_difference_distance) <= frame_distance + inter_frame_distance:
                         self.collisions.append(record.id)
+                        self.collisions.append(comparison_record.id)
                 else:
                     break
 
-            while j <= len(self.data):
+            j = i
+            while j < len(self.data) - 1:
                 j += 1
                 comparison_record = self.data[j]
                 frame_distance = vessel.blood_velocity * self.parameters.get_transmission_time_slot()
@@ -44,6 +47,7 @@ class CollisionDetector:
                     time_difference_distance = vessel.blood_velocity * time_difference
                     if np.absolute(absolute_distance - time_difference_distance) <= frame_distance + inter_frame_distance:
                         self.collisions.append(record.id)
+                        self.collisions.append(comparison_record.id)
                 else:
                     break
 

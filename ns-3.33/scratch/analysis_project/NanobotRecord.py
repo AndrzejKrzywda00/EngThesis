@@ -2,8 +2,8 @@ import math
 
 
 class NanobotRecord:
-    def __init__(self, row, id):
-        self.id = id
+    def __init__(self, row, record_id):
+        self.id = record_id
         self.nanobot_id = int(row[0])
         self.x = float(row[1])
         self.y = float(row[2])
@@ -14,7 +14,7 @@ class NanobotRecord:
         self.direction = int(row[7])
 
     def __str__(self):
-        return str(self.nanobot_id) + ", " + str(self.blood_vessel_id) + ", " + str(self.timestamp)
+        return str(self.nanobot_id) + " in " + str(self.blood_vessel_id) + " at " + str(self.timestamp)
 
     def is_from_nanobot_to_access_point(self):
         return self.direction == -1

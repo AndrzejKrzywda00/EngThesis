@@ -1,3 +1,4 @@
+from CollisionDetector import CollisionDetector
 from DataPacket import DataPacket
 from DataProvider import DataProvider
 
@@ -40,4 +41,4 @@ if __name__ == '__main__':
                         last_packet.complete(record)
                         data_sent.append(last_packet)
 
-    print('Packets per hour:', len(data_sent) / (simulation_time_in_hours * test_size))
+    print('Packets per hour: ', len(data_sent) / (simulation_time_in_hours * test_size))

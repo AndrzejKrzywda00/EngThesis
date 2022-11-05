@@ -10,3 +10,11 @@ if __name__ == '__main__':
     axis.set_ylabel('Average delivery time [h]')
     axis.stem(xs, ys, use_line_collection=True)
     plt.show()
+
+    # 1.
+    # verification of number of nanobots carrying data
+    # and data sent to access point
+    # probability * number_of_tranmissions ~= nanobots
+
+    # 2.
+    # Hard data of bloodvoyager - where it is and what it does
