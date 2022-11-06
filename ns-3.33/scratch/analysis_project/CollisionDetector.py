@@ -1,9 +1,9 @@
-# Collisions only occur when nanobots are transmitting
 import numpy as np
 
 from TransmissionParameters import TransmissionParameters
 
 
+# Collisions only occur when nanobots are transmitting
 class CollisionDetector:
 
     def __init__(self, records, blood_vessel_map):
@@ -16,7 +16,6 @@ class CollisionDetector:
                 self.data.append(record)
 
         for i in range(len(self.data)):
-            print(i)
             record = self.data[i]
             vessel = self.vessels[record.blood_vessel_id]
             j = i
@@ -26,12 +25,12 @@ class CollisionDetector:
                 frame_distance = vessel.blood_velocity * self.parameters.get_transmission_time_slot()
                 inter_frame_distance = self.parameters.inter_frame_gap * vessel.blood_velocity
                 time_difference = record.timestamp - comparison_record.timestamp
-                if time_difference < vessel.length:
-                    absolute_distance = record.distance_to_nanobot(comparison_record)
+                if time_difference * vessel.blood_velocity < vessel.length:
+                    absolute_distance = record.distance_to_nanobot(comparison_record) / 10
                     time_difference_distance = vessel.blood_velocity * time_difference
                     if np.absolute(absolute_distance - time_difference_distance) <= frame_distance + inter_frame_distance:
-                        self.collisions.append(record.id)
-                        self.collisions.append(comparison_record.id)
+                        self.collisions.append(record)
+                        self.collisions.append(comparison_record)
                 else:
                     break
 
@@ -41,13 +40,13 @@ class CollisionDetector:
                 comparison_record = self.data[j]
                 frame_distance = vessel.blood_velocity * self.parameters.get_transmission_time_slot()
                 inter_frame_distance = self.parameters.inter_frame_gap * vessel.blood_velocity
-                time_difference = record.timestamp - comparison_record.timestamp
-                if time_difference < vessel.length:
-                    absolute_distance = record.distance_to_nanobot(comparison_record)
+                time_difference = comparison_record.timestamp - record.timestamp
+                if time_difference * vessel.blood_velocity < vessel.length:
+                    absolute_distance = record.distance_to_nanobot(comparison_record) / 10
                     time_difference_distance = vessel.blood_velocity * time_difference
                     if np.absolute(absolute_distance - time_difference_distance) <= frame_distance + inter_frame_distance:
-                        self.collisions.append(record.id)
-                        self.collisions.append(comparison_record.id)
+                        self.collisions.append(record)
+                        self.collisions.append(comparison_record)
                 else:
                     break
 

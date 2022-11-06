@@ -7,9 +7,9 @@ from NanobotRecord import NanobotRecord
 # Provides with nanobot records data for scenarios
 class DataProvider:
 
-    def __init__(self, delay, path):
+    def __init__(self, path):
         self.path = path
-        self.delay = delay
+        self.delay = 15 * 60
         self.nanobot_records = []
         self.blood_vessels = []
         self.read_data()
