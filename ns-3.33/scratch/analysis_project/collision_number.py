@@ -3,7 +3,7 @@ from DataProvider import DataProvider
 
 if __name__ == '__main__':
 
-    provider = DataProvider('data/number_of_nanobots/results-1000.csv')
+    provider = DataProvider('data/number_of_nanobots/results-300.csv')
     nanobots_map = provider.get_nanobots_map()
     blood_vessels_map = provider.get_blood_vessels_map()
 

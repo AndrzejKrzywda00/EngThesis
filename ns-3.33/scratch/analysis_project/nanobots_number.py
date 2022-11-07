@@ -5,7 +5,7 @@ from TransmissionSimulator import TransmissionSimulator
 if __name__ == '__main__':
 
     # variables to calculate metrics
-    test_size = 1
+    test_size = 1000
     simulation_time_in_hours = 30
     nanobot_number = 100
 
@@ -29,27 +29,26 @@ if __name__ == '__main__':
     all_records.sort(key=lambda x: x.timestamp)
 
     for i in range(test_size):
+        print('test:', i)
         flow_map.clear()
         for record in all_records:
             simulator = TransmissionSimulator(record, blood_vessels_map[record.blood_vessel_id])
             if record.is_from_datasource_to_nanobot():
                 ds_nb += 1
-                if simulator.will_transmit_from_data_source_to_nanobot():
+                if simulator.probability_ds_nb():
                     s_ds_nb += 1
                     packet = DataPacket()
                     packet.set(record)
                     flow_map[packet.nanobot_id] = packet
             if record.is_from_nanobot_to_access_point():
                 nb_ap += 1
-                if simulator.will_transmit_from_nanobot_to_access_point():
+                if simulator.probability_nb_ap():
                     s_nb_ap += 1
                     if record.nanobot_id in flow_map.keys():
-                        print('Time', record.timestamp / 3600, '; nanobots with information:', len(flow_map.keys()))
                         packet = flow_map[record.nanobot_id]
                         packet.complete(record)
                         data_sent.append(packet)
-                        break
 
-    # print(np.mean([packet.delivery_time(wait_time) / 3600 for packet in data_sent]))
+    print([packet for packet in data_sent])
     print(s_ds_nb / ds_nb)
     print(s_nb_ap / nb_ap)

@@ -10,6 +10,8 @@
 import math
 import random as random
 
+import numpy as np
+
 from TransmissionParameters import TransmissionParameters
 
 
@@ -86,13 +88,19 @@ class TransmissionSimulator:
             time_steps.append(offset + n)
             n += 1
 
-        nanobot_angle = random.random() * 360
-        nanobot_diameter = random.random() * 0.006
-        nanobot_radius = nanobot_diameter / 2
-        nanobot_x = nanobot_radius * math.cos(nanobot_angle / (2 * math.pi))
-        nanobot_y = nanobot_radius * math.sin(nanobot_angle / (2 * math.pi))
+        t = np.random.uniform(0.0, 2.0 * np.pi, 1)
+        r = self.vessel.radius * np.sqrt(np.random.uniform(0.0, 1.0, 1))
+
+        nanobot_x = r[0] * np.cos(t[0])
+        nanobot_y = r[0] * np.sin(t[0])
         nanobot_z = -self.vessel.length / 2
 
         for time_step in time_steps:
             position = [nanobot_x, nanobot_y, nanobot_z + time_step * self.vessel.blood_velocity]
             self.positions.append(position)
+
+    def probability_nb_ap(self):
+        return random.random() <= 2.84e-5
+
+    def probability_ds_nb(self):
+        return random.random() <= self.parameters.reception_to_transmission_ratio * self.probability_nb_ap()
