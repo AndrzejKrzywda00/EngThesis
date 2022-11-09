@@ -22,7 +22,7 @@ class CollisionDetector:
             while j >= 1:
                 j -= 1
                 comparison_record = self.data[j]
-                frame_distance = vessel.blood_velocity * self.parameters.get_transmission_time_slot()
+                frame_distance = vessel.blood_velocity * self.parameters.get_transmission_slot_time()
                 inter_frame_distance = self.parameters.inter_frame_gap * vessel.blood_velocity
                 time_difference = record.timestamp - comparison_record.timestamp
                 if time_difference * vessel.blood_velocity < vessel.length:
