@@ -18,13 +18,13 @@ class CollisionDetector:
 
         for i in range(len(self.data)):
             record = self.data[i]
-            # vessel = self.vessels[record.blood_vessel_id]
             j = i
             while j < len(self.data)-1:
                 j += 1
                 comparison_record = self.data[j]
                 if comparison_record.blood_vessel_id == record.blood_vessel_id:
                     if comparison_record.timestamp - record.timestamp <= 2 * self.parameters.sampling_frequency:
+                        # check distance and signal power
                         self.collisions.append(record.id)
                         self.collisions.append(comparison_record.id)
                     break
