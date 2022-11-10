@@ -13,7 +13,7 @@ if __name__ == '__main__':
     nanobot_number = 1000
 
     provider = DataProvider('data/number_of_nanobots/results-{}.csv'.format(nanobot_number))
-    nanobot_map = provider.get_nanobots_map()
+    nanobot_map = provider.nanobot_records
     blood_vessels_map = provider.get_blood_vessels_map()
 
     data_sent = []

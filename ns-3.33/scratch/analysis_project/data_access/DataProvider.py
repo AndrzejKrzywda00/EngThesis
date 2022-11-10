@@ -30,16 +30,6 @@ class DataProvider:
                 vessel = BloodVessel(row)
                 self.blood_vessels.append(vessel)
 
-    def get_nanobots_map(self):
-        nanobot_map = dict()
-        # TODO -- check if we want to do that at all
-        for record in self.nanobot_records:
-            nanobot_map[record.nanobot_id] = []
-
-        for record in self.nanobot_records:
-            nanobot_map[record.nanobot_id].append(record)
-        return nanobot_map
-
     def get_blood_vessels_map(self):
         blood_vessels_map = dict()
         for blood_vessel in self.blood_vessels:
