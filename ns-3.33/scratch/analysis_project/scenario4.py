@@ -1,7 +1,7 @@
-from CollisionDetector import CollisionDetector
-from DataPacket import DataPacket
-from DataProvider import DataProvider
-from TransmissionSimulator import TransmissionSimulator
+from transmission.CollisionDetector import CollisionDetector
+from model.DataPacket import DataPacket
+from data_access.DataProvider import DataProvider
+from transmission.TransmissionSimulator import TransmissionSimulator
 
 if __name__ == '__main__':
 
@@ -9,7 +9,7 @@ if __name__ == '__main__':
     simulation_time_in_hours = 30
     test_size = 100
 
-    provider = DataProvider(wait_time, 'data/simulation_time/results-{}.csv'.format(simulation_time_in_hours))
+    provider = DataProvider('data/simulation_time/results-{}.csv'.format(simulation_time_in_hours))
     nanobots = provider.get_nanobots_map()
     vessels = provider.get_blood_vessels_map()
 

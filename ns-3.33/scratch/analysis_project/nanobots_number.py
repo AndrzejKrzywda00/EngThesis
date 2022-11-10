@@ -1,8 +1,8 @@
 import numpy as np
 
-from DataPacket import DataPacket
-from DataProvider import DataProvider
-from TransmissionSimulator import TransmissionSimulator
+from model.DataPacket import DataPacket
+from data_access.DataProvider import DataProvider
+from transmission.TransmissionSimulator import TransmissionSimulator
 
 if __name__ == '__main__':
 

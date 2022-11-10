@@ -1,11 +1,11 @@
-from DataPacket import DataPacket
-from DataProvider import DataProvider
+from model.DataPacket import DataPacket
+from data_access.DataProvider import DataProvider
 
 # Simulation to check how many packets per unit of time
 # will be delivered by the system
 # 100 nanobots | 30 h
 # System working in steady time, not stopping after receiving first packet
-from TransmissionSimulator import TransmissionSimulator
+from transmission.TransmissionSimulator import TransmissionSimulator
 
 if __name__ == '__main__':
 

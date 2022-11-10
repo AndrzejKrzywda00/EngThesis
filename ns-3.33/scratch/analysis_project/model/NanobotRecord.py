@@ -1,6 +1,7 @@
 import math
 
 
+# Representation of single record created by blood-voyager-s
 class NanobotRecord:
     def __init__(self, row, record_id):
         self.id = record_id
@@ -23,4 +24,4 @@ class NanobotRecord:
         return self.direction == -1
 
     def distance_to_nanobot(self, nanobot_record):
-        return math.sqrt((self.x - nanobot_record.x)**2 + (self.y - nanobot_record.y)**2 + (self.z - nanobot_record.z)**2)
+        return math.sqrt((self.x - nanobot_record.x) ** 2 + (self.y - nanobot_record.y) ** 2 + (self.z - nanobot_record.z) ** 2)

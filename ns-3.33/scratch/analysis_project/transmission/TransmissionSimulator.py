@@ -3,7 +3,7 @@ import random as random
 
 import numpy as np
 
-from Position3D import Position3D
+from model.Position3D import Position3D
 from TransmissionParameters import TransmissionParameters
 
 
@@ -19,7 +19,7 @@ def absorption_loss(d):
 
 # Simulating transmission
 # from nanobot to access point scenario
-# OR
+# and
 # from data source to nanobot
 class TransmissionSimulator:
 
@@ -98,9 +98,3 @@ class TransmissionSimulator:
         for time_step in time_steps:
             position = Position3D(nanobot_x, nanobot_y, nanobot_z + self.vessel.blood_velocity * time_step)
             self.positions.append(position)
-
-    def probability_nb_ap(self):
-        return random.random() <= 2.84e-5
-
-    def probability_ds_nb(self):
-        return random.random() <= self.parameters.reception_to_transmission_ratio * self.probability_nb_ap()

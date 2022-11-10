@@ -1,9 +1,9 @@
 import numpy as np
 
-from DataPacket import DataPacket
-from DataProvider import DataProvider
-from Status import Status
-from TransmissionSimulator import TransmissionSimulator
+from model.DataPacket import DataPacket
+from data_access.DataProvider import DataProvider
+from model.Status import Status
+from transmission.TransmissionSimulator import TransmissionSimulator
 
 # Scenario .1
 # Analysing how soon will data be delivered

@@ -1,5 +1,5 @@
 # Testing how often will collisions occur
-from DataProvider import DataProvider
+from data_access.DataProvider import DataProvider
 
 if __name__ == '__main__':
 

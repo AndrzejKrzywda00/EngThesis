@@ -1,14 +1,14 @@
-# Data presentation acquired by system
+# Engineering Thesis Project
 
-1. Histogram of packet delivery times
-2. Time schema of packet delivery (x-axis scaled to whole scenario)
-3. Transmission power economy schema
+Analysing efficiency of simulated flow guided medical nano-network consisting of some number of nanobots.
+Flow of nanobots is simulated by ns3 module Blood-Voyager-S, then evaluated in four defined scenarios by created python modules
 
-## I scenario
-Number of nanobots = 5 (minimum required), times: from 2 minutes to 20 minutes to 1h
-We can expect several transmissions with delays of several minutes, or a little more
-Having 3 data source points and single reception point makes scenario heavily tilted towards reception transmissions
+## Scenario 1
+Plotting probability density function and distribution method describing chances of delivery in time span of width 30 minutes
+as function of time of flow in blood system
 
-## II scenario
-Number of nanobots = 100
-Time = 1h
+## Scenario 2
+Plotting mean delivery time as function of number of nanobots
+
+## Scenario 3
+Plotting collision rate understood as number of collisions per transmissions as function of number of nanobots

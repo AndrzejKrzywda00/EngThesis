@@ -1,10 +1,10 @@
 import csv
 
-from BloodVessel import BloodVessel
-from NanobotRecord import NanobotRecord
+from model.BloodVessel import BloodVessel
+from model.NanobotRecord import NanobotRecord
 
 
-# Provides with nanobot records data for scenarios
+# Provides with all necessary data from .csv files
 class DataProvider:
 
     def __init__(self, path):
@@ -24,7 +24,7 @@ class DataProvider:
                 if record.timestamp >= self.delay:
                     self.nanobot_records.append(record)
 
-        with open('data/vasculature-data.csv', 'r') as vessels_file:
+        with open('../data/vasculature-data.csv', 'r') as vessels_file:
             csv_reader = csv.reader(vessels_file)
             for row in csv_reader:
                 vessel = BloodVessel(row)
@@ -32,6 +32,7 @@ class DataProvider:
 
     def get_nanobots_map(self):
         nanobot_map = dict()
+        # TODO -- check if we want to do that at all
         for record in self.nanobot_records:
             nanobot_map[record.nanobot_id] = []
 

@@ -1,5 +1,5 @@
-from CollisionDetector import CollisionDetector
-from DataProvider import DataProvider
+from transmission.CollisionDetector import CollisionDetector
+from data_access.DataProvider import DataProvider
 
 if __name__ == '__main__':
 

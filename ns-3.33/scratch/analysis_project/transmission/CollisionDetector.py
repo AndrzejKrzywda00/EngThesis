@@ -1,6 +1,6 @@
 import numpy as np
 
-from TransmissionParameters import TransmissionParameters
+from transmission.TransmissionParameters import TransmissionParameters
 
 
 # Collisions only occur when nanobots are transmitting

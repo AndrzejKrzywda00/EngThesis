@@ -1,24 +1,19 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from DataPacket import DataPacket
-from DataProvider import DataProvider
-from Status import Status
-from TransmissionSimulator import TransmissionSimulator
+from model.DataPacket import DataPacket
+from data_access.DataProvider import DataProvider
+from model.Status import Status
+from transmission.TransmissionSimulator import TransmissionSimulator
 
-# Scenario .2
-# Analysing how soon first packet of data will be delivered
-# On 1000 examples
-# And plotting a histogram
+
 if __name__ == '__main__':
 
-    # variables to calculate metrics
     test_size = 1000
-    wait_time = 10 * 60
     simulation_time_in_hours = 8
     nanobot_number = 800
 
-    provider = DataProvider(wait_time, 'data/number_of_nanobots/results-{}.csv'.format(nanobot_number))
+    provider = DataProvider('data/number_of_nanobots/results-{}.csv'.format(nanobot_number))
     nanobot_map = provider.get_nanobots_map()
     blood_vessels_map = provider.get_blood_vessels_map()
 
