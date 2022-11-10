@@ -22,8 +22,7 @@ class CollisionDetector:
                 comparison_record = self.data[j]
                 if comparison_record.blood_vessel_id == record.blood_vessel_id:
                     if comparison_record.timestamp - record.timestamp <= 2 * self.parameters.sampling_frequency:
-                        # check distance and signal power
-                        # (1/36) * 4 / 250
+
                         self.collisions.append(record.id)
                         self.collisions.append(comparison_record.id)
                     break

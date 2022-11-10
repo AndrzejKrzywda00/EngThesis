@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from transmission.CollisionDetector import CollisionDetector
 from data_access.DataProvider import DataProvider
 
+# Scenario 3
 if __name__ == '__main__':
 
     nanobots_numbers = [100 * (i+2) for i in range(7)]
