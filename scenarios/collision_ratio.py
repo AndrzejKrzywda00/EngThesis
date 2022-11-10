@@ -14,6 +14,7 @@ if __name__ == '__main__':
         records = provider.nanobot_records
         blood_vessels_map = provider.get_blood_vessels_map()
         detector = CollisionDetector(records, blood_vessels_map)
+        print('collisions number:', detector.collisions_amount)
         results.append(len(detector.collisions) / len(records))
 
     ys = [result * 100 for result in results]

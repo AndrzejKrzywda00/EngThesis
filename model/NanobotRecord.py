@@ -25,9 +25,9 @@ class NanobotRecord:
     def is_from_datasource_to_nanobot(self):
         return self.blood_vessel_id == self.parameters.ds_vessel_id
 
-    def distance_to(self, position):
+    def distance_to(self, record):
         return math.sqrt(
-            (self.position.x - position.x) ** 2 +
-            (self.position.y - position.y) ** 2 +
-            (self.position.z - position.z) ** 2
+            (self.position.x - record.position.x) ** 2 +
+            (self.position.y - record.position.y) ** 2 +
+            (self.position.z - record.position.z) ** 2
         )

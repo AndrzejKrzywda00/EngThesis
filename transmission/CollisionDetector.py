@@ -7,12 +7,9 @@ class CollisionDetector:
     def __init__(self, records, blood_vessel_map):
         self.collisions = []
         self.vessels = blood_vessel_map
-        self.data = []
+        self.data = sorted(records, key=lambda x: x.timestamp)
         self.parameters = TransmissionParameters()
-
-        for record in records:
-            if record.is_from_nanobot_to_access_point():
-                self.data.append(record)
+        self.collisions_amount = 0
 
         for i in range(len(self.data)):
             record = self.data[i]
@@ -21,10 +18,16 @@ class CollisionDetector:
                 j += 1
                 comparison_record = self.data[j]
                 if comparison_record.blood_vessel_id == record.blood_vessel_id:
-                    if comparison_record.timestamp - record.timestamp <= 2 * self.parameters.sampling_frequency:
-
-                        self.collisions.append(record.id)
-                        self.collisions.append(comparison_record.id)
+                    if comparison_record.timestamp - record.timestamp <= self.parameters.sampling_frequency:
+                        print(comparison_record.timestamp - record.timestamp)
+                        d1 = record.distance_to(comparison_record)
+                        delta_t = (record.timestamp - comparison_record.timestamp)
+                        d2 = delta_t * self.vessels[record.blood_vessel_id].blood_velocity
+                        distance = abs(d1 + d2)
+                        if distance <= 0.002:
+                            self.collisions_amount += 1
+                            self.collisions.append(record.id)
+                            self.collisions.append(comparison_record.id)
                     break
                 else:
                     break
