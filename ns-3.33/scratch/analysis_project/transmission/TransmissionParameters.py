@@ -11,5 +11,7 @@ class TransmissionParameters:
         self.inter_frame_gap = 1e-5     # 10 us
         self.central_frequency = 1e12   # 1 THz
 
+        self.sampling_frequency = 2     # info every 2 seconds
+
     def get_transmission_slot_time(self):
         return self.frame_length / self.transmission_speed
