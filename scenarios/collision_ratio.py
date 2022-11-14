@@ -11,10 +11,9 @@ if __name__ == '__main__':
 
     for number in nanobots_numbers:
         provider = DataProvider("../data/number_of_nanobots/results-{}.csv".format(number))
-        records = provider.nanobot_records
+        records = [record for record in provider.nanobot_records if record.is_from_nanobot_to_access_point()]
         blood_vessels_map = provider.get_blood_vessels_map()
         detector = CollisionDetector(records, blood_vessels_map)
-        print('collisions number:', detector.collisions_amount)
         results.append(len(detector.collisions) / len(records))
 
     ys = [result * 100 for result in results]

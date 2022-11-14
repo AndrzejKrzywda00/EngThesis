@@ -15,5 +15,7 @@ class TransmissionParameters:
         self.ds_vessel_id = 25
         self.ap_vessel_id = 64
 
+        self.general_transmission_distance = 0.001
+
     def get_transmission_slot_time(self):
         return self.frame_length / self.transmission_speed
