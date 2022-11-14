@@ -1,6 +1,3 @@
-import math
-
-from model.Position3D import Position3D
 from transmission.TransmissionParameters import TransmissionParameters
 
 
@@ -10,10 +7,8 @@ class NanobotRecord:
     def __init__(self, row, record_id):
         self.id = record_id
         self.nanobot_id = int(row[0])
-        self.position = Position3D(float(row[1]), float(row[2]), float(row[3]))
-        self.blood_vessel_id = int(row[4])
-        self.stream_id = int(row[5])
-        self.timestamp = float(row[6])
+        self.timestamp = float(row[1])
+        self.blood_vessel_id = int(row[2])
         self.parameters = TransmissionParameters()
 
     def __str__(self):
@@ -24,10 +19,3 @@ class NanobotRecord:
 
     def is_from_datasource_to_nanobot(self):
         return self.blood_vessel_id == self.parameters.ds_vessel_id
-
-    def distance_to(self, record):
-        return math.sqrt(
-            (self.position.x - record.position.x) ** 2 +
-            (self.position.y - record.position.y) ** 2 +
-            (self.position.z - record.position.z) ** 2
-        )

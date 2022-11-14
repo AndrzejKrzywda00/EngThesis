@@ -8,10 +8,8 @@ class CollisionDetector:
     def __init__(self, records, blood_vessel_map):
         self.collisions = []
         self.vessels = blood_vessel_map
-        self.data = sorted(records, key=lambda x: x.timestamp)
+        self.data = records
         self.parameters = TransmissionParameters()
-        self.collisions_amount = 0
-        self.collisions_all = 0
 
         for i in range(len(self.data)):
             record = self.data[i]
@@ -28,9 +26,3 @@ class CollisionDetector:
                             self.collisions.append(comparison_record.id)
                 else:
                     break
-
-    def will_collide(self, record):
-        return self.collisions.__contains__(record.id)
-
-    def get_collision_ratio(self):
-        return self.collisions_amount / self.collisions_all

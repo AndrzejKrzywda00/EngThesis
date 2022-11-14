@@ -3,6 +3,7 @@ import numpy as np
 
 from data_access.DataProvider import DataProvider
 from model.DataPacket import DataPacket
+from transmission.CollisionDetector import CollisionDetector
 from transmission.TransmissionSimulator import TransmissionSimulator
 
 # Scenario 1
@@ -12,13 +13,17 @@ if __name__ == '__main__':
     simulation_time_in_hours = 8
     nanobot_number = 1000
 
+    # flow data
     provider = DataProvider('../data/number_of_nanobots/results-{}.csv'.format(nanobot_number))
-    nanobot_map = provider.nanobot_records
+    records = provider.nanobot_records
     blood_vessels_map = provider.get_blood_vessels_map()
+
+    # collisions
+    detector = CollisionDetector(provider.transmission_records, blood_vessels_map)
+    collisions = detector.collisions
 
     data_sent = []
     flow_map = {}
-    records = []
 
     for i in range(test_size):
         flow_map.clear()
@@ -30,12 +35,13 @@ if __name__ == '__main__':
                     packet.set(record)
                     flow_map[packet.nanobot_id] = packet
             if record.is_from_nanobot_to_access_point():
-                if simulator.will_transmit_from_nanobot_to_access_point():
-                    if record.nanobot_id in flow_map.keys():
-                        packet = flow_map[record.nanobot_id]
-                        packet.complete(record)
-                        data_sent.append(packet)
-                        break
+                if record.id not in collisions:
+                    if simulator.will_transmit_from_nanobot_to_access_point():
+                        if record.nanobot_id in flow_map.keys():
+                            packet = flow_map[record.nanobot_id]
+                            packet.complete(record)
+                            data_sent.append(packet)
+                            break
 
     # preparing and showing results
     sampling_depth = 2

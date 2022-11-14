@@ -3,6 +3,7 @@ import numpy as np
 
 from model.DataPacket import DataPacket
 from data_access.DataProvider import DataProvider
+from transmission.CollisionDetector import CollisionDetector
 from transmission.TransmissionSimulator import TransmissionSimulator
 
 # Scenario 2
@@ -15,9 +16,16 @@ if __name__ == '__main__':
     data_sent_for_nanobots = {}
 
     for number in nanobot_numbers:
+
+        # flow data
         provider = DataProvider('../data/data-3h-{}-nanobots.csv'.format(number))
         records = provider.nanobot_records
         blood_vessels_map = provider.get_blood_vessels_map()
+
+        # collisions
+        detector = CollisionDetector(provider.transmission_records, blood_vessels_map)
+        collisions = detector.collisions
+
         data_sent_for_nanobots[number] = []
 
         for i in range(test_size):
@@ -30,12 +38,13 @@ if __name__ == '__main__':
                         packet.set(record)
                         flow_map[packet.nanobot_id] = packet
                 if record.is_from_nanobot_to_access_point():
-                    if simulator.will_transmit_from_nanobot_to_access_point():
-                        if record.nanobot_id in flow_map.keys():
-                            packet = flow_map[record.nanobot_id]
-                            packet.complete(record)
-                            data_sent_for_nanobots[number].append(packet)
-                            break
+                    if record.id not in collisions:
+                        if simulator.will_transmit_from_nanobot_to_access_point():
+                            if record.nanobot_id in flow_map.keys():
+                                packet = flow_map[record.nanobot_id]
+                                packet.complete(record)
+                                data_sent_for_nanobots[number].append(packet)
+                                break
 
     xs = [number for number in data_sent_for_nanobots.keys()]
     ys = [np.mean(data_sent_for_nanobots[number]) for number in xs]

@@ -13,8 +13,10 @@ class DataProvider:
         self.nanobot_records = []
         self.blood_vessels = []
         self.read_data()
+        self.transmission_records = []
 
     def read_data(self):
+        self.read_blood_vessels()
         with open(self.path, 'r') as file:
             csv_reader = csv.reader(file)
             record_id = 0
@@ -23,7 +25,9 @@ class DataProvider:
                 record_id += 1
                 if record.timestamp >= self.delay:
                     self.nanobot_records.append(record)
+            self.transmission_records = [record for record in self.nanobot_records if record.is_from_nanobot_to_access_point()]
 
+    def read_blood_vessels(self):
         with open('../data/vasculature-data.csv', 'r') as vessels_file:
             csv_reader = csv.reader(vessels_file)
             for row in csv_reader:

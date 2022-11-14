@@ -8,7 +8,6 @@ class DataPacket:
         self.nanobot_id = None
         self.sent_time = None
         self.received_time = None
-        self.payload = []
 
     def set(self, record):
         self.nanobot_id = record.nanobot_id
