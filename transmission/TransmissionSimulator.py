@@ -4,7 +4,7 @@ import random as random
 import numpy as np
 
 from model.Position3D import Position3D
-from TransmissionParameters import TransmissionParameters
+from transmission.TransmissionParameters import TransmissionParameters
 
 
 def spread_loss(f, d):

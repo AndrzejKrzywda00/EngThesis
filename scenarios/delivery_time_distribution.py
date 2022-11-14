@@ -12,7 +12,7 @@ if __name__ == '__main__':
     simulation_time_in_hours = 8
     nanobot_number = 1000
 
-    provider = DataProvider('data/number_of_nanobots/results-{}.csv'.format(nanobot_number))
+    provider = DataProvider('../data/number_of_nanobots/results-{}.csv'.format(nanobot_number))
     nanobot_map = provider.nanobot_records
     blood_vessels_map = provider.get_blood_vessels_map()
 

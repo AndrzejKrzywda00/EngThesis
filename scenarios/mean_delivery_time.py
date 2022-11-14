@@ -15,7 +15,7 @@ if __name__ == '__main__':
     data_sent_for_nanobots = {}
 
     for number in nanobot_numbers:
-        provider = DataProvider('data/data-3h-{}-nanobots.csv'.format(number))
+        provider = DataProvider('../data/data-3h-{}-nanobots.csv'.format(number))
         records = provider.nanobot_records
         blood_vessels_map = provider.get_blood_vessels_map()
         data_sent_for_nanobots[number] = []
