@@ -13,8 +13,8 @@ class TransmissionParameters:
         self.central_frequency = 1e12   # 1 THz
 
         self.sampling_frequency = 2     # info every 2 seconds
-        self.ds_vessel_id = 25
-        self.ap_vessel_id = 64
+        self.ds_vessel_id = 93
+        self.ap_vessel_id = 81
 
     def get_transmission_slot_time(self):
         return self.frame_length / self.transmission_speed

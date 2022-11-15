@@ -9,23 +9,25 @@ from transmission.TransmissionSimulator import TransmissionSimulator
 # Scenario 1
 if __name__ == '__main__':
 
-    test_size = 1000
-    simulation_time_in_hours = 8
+    test_size = 100
+    simulation_time_in_hours = 12
     nanobot_number = 1000
 
     # flow data
-    provider = DataProvider('../data/number_of_nanobots/results-{}.csv'.format(nanobot_number))
+    provider = DataProvider('../data/main/scenario1/data-time-12h-nanobots-{}.csv'.format(nanobot_number))
     records = provider.nanobot_records
     blood_vessels_map = provider.get_blood_vessels_map()
 
     # collisions
     detector = CollisionDetector(provider.transmission_records, blood_vessels_map)
     collisions = detector.collisions
+    print(collisions)
 
     data_sent = []
     flow_map = {}
 
     for i in range(test_size):
+        print('test:', i+1)
         flow_map.clear()
         for record in records:
             simulator = TransmissionSimulator(record, blood_vessels_map[record.blood_vessel_id])
@@ -61,10 +63,10 @@ if __name__ == '__main__':
 
     # Probability density
     figure, axis = plt.subplots()
-    values = [histogram[key] / test_size for key in histogram.keys()]
+    values = [histogram[key] / test_size * 100 for key in histogram.keys()]
     x = [key / 3600 for key in list(histogram.keys())]
     axis.bar(x, values, linewidth=1.0, edgecolor='black', width=0.5)
-    axis.set_ylabel("Number of packets delivered")
+    axis.set_ylabel("Chances of packet delivery [%]")
     axis.set_xlabel("Delivery time [h]")
     axis.set_title("Delivery time of packets histogram, N = {} nanobots".format(nanobot_number))
     plt.show()

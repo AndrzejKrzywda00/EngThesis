@@ -21,10 +21,11 @@ class DataProvider:
             csv_reader = csv.reader(file)
             record_id = 0
             for row in csv_reader:
-                record = NanobotRecord(row, record_id)
-                record_id += 1
-                if record.timestamp >= self.delay:
-                    self.nanobot_records.append(record)
+                if len(row) == 3:
+                    record = NanobotRecord(row, record_id)
+                    record_id += 1
+                    if record.timestamp >= self.delay:
+                        self.nanobot_records.append(record)
             self.transmission_records = [record for record in self.nanobot_records if record.is_from_nanobot_to_access_point()]
 
     def read_blood_vessels(self):

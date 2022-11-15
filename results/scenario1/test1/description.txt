@@ -1,0 +1,4 @@
+Test size = 10
+Mean delivery time = 5.63 [h]
+Standard deviation = 2.49 [h]
+Delivery percentage = 0.8
